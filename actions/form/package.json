@@ -1,0 +1,24 @@
+{
+  "name": "openwhisk-web-request-form",
+  "version": "0.0.1",
+  "description": "Request site for bluemix trial account codes",
+  "main": "request_form.js",
+  "scripts": {
+    "start": "node request_form.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/justinmccoy/openwhisk-web-request-form"
+  },
+  "author": "Justin A. McCoy <justin.mccoy@us.ibm.com>",
+  "license": "Apache 2.0",
+  "bugs": {
+    "url": "https://github.com/justinmccoy/openwhisk-web-request-form/issues"
+  },
+  "homepage": "https://github.com/justinmccoy/openwhisk-web-request-form",
+  "dependencies": {
+    "cloudant": "^1.6.2",
+    "formidable": ""
+  }
+}
