@@ -13,11 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 function main(params) {
-   var FormData = require('form-data');
-   var formidable = require('formidable');
-   var form = `
+  var form = `
 <html><head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -25,7 +22,6 @@ function main(params) {
   <title>Bluemix Codes</title>
   <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
-  <link href="css/styles.css" rel="stylesheet">
   <style>
     html,
     body {
@@ -88,15 +84,11 @@ function main(params) {
               <h4>bluemix.net</h4>
               <form>
                 <div class="form-group">
-                  <input type="text" class="form-control form-control-lg" id="name" placeholder="Name" required>
-                </div>
-                <div class="form-group">
-                  <input type="email" class="form-control form-control-lg" id="email" aria-describedby="emailHelp" placeholder="Email Address" required>
+                  <input type="text" class="form-control form-control-lg" name="name" placeholder="Name" required>
+                  <input type="email" class="form-control form-control-lg" name="email" aria-describedby="emailHelp" placeholder="Email Address" required>
                   <small id="emailHelp" class="form-text text-muted">We\'ll never share your email with anyone else.</small>
+                  <input type="submit" class="btn btn-lg submit-btn" value="Get Code">
                 </div>
-                <div class="form-group">
-		  <input type="submit" class="btn btn-lg submit-btn" value="Get Code"/>
-                </div>	
               </form>
             </div>
           </div>
@@ -106,45 +98,46 @@ function main(params) {
    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script> 
    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 <script>
-  $("form").submit(function(evt){	 
-    evt.preventDefault();
-    var formData = new FormData();
-    formData.append('name',$('#name').val());
-    formData.append('email',$('#email').val());
 
+  $( "form" ).submit(function( event ) {
+    event.preventDefault();
+    alert($( "form" ).serialize());
+    
     $.ajax({
       url: 'https://openwhisk.ng.bluemix.net/api/v1/web/justin.mccoy_da/hackathons/form',
-      type: 'POST',
-      data: formData,
+      type: 'post',
+      data: $( "form" ).serialize(),
       async: false,
       processData: false,
       contentType: false,
       success: function (response) {
-        alert(response);
+        //alert(response);
       },
       error: function(response) {
         alert(response);
       }
     });
-    return false;
-  });
+   });
 </script>
 </body></html>`;
 
-  var response = "<html><body><h3>hello</h3></body></html>";
   if(params.__ow_method === 'get') {
     return {body: form};
   } else if (params.__ow_method === 'post') {
-
-    decoded = new Buffer(params.__ow_body, 'base64').toString('utf-8')
-    return {body: decoded}; 
-
-    console.log('Posted' + formData);
-    return { response: params };
+    return {body: getQueryParameters(params.__ow_body)}; 
   } else {
     return { html: '<html><body><p>' + params + '</p></body></html>'};
   }
-
-
 }
 
+
+//Returns a map of query parameters found in paramString
+function getQueryParameters(paramString) {
+  var arrayOfParameters = paramString.split('&');
+  var map = {};
+  for (var i in arrayOfParameters) {
+    parameter = arrayOfParameters[i].split('=');
+    map[parameter[0]] = unescape(parameter[1]);
+  }
+  return map;
+}

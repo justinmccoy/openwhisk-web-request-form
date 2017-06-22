@@ -1,10 +1,10 @@
 {
   "name": "openwhisk-web-request-form",
   "version": "0.0.1",
-  "description": "Request site for bluemix trial account codes",
-  "main": "request_form.js",
+  "description": "Host and process a web form from OpenWhisk",
+  "main": "form.js",
   "scripts": {
-    "start": "node request_form.js",
+    "start": "node form.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -18,7 +18,5 @@
   },
   "homepage": "https://github.com/justinmccoy/openwhisk-web-request-form",
   "dependencies": {
-    "cloudant": "^1.6.2",
-    "formidable": ""
   }
 }
